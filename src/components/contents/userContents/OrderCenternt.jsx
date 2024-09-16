@@ -62,10 +62,8 @@ export default function OrderContent() {
               {orderData.map((item, index) => (
                 <OrderUser
                   key={index}
+                  idmypackage={item.idmypackage}
                   mypackage={item.mypackage}
-                  price={item.price}
-                  wash={item.wash}
-                  dry={item.dry}
                   fabrisoftener={item.fabrisoftener}
                   watertmp={item.watertmp}
                   status={item.status}

@@ -1,18 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 const BASE_URL = "http://localhost:8082";
-
 export default function OrderUser({
+  idmypackage,
   mypackage,
-  price,
-  wash,
-  dry,
   fabrisoftener,
   watertmp,
   status,
   orderId,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [packageData, setPackageData] = useState();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -21,6 +19,44 @@ export default function OrderUser({
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  useEffect(() => {
+    const fetchPackageData = async () => {
+      try {
+        const token = localStorage.getItem("userToken");
+        if (!token) {
+          console.error("No token found");
+          setError("No token found");
+          return;
+        }
+
+        const responsePackage = await fetch(`${BASE_URL}/mypackage/readById?id=${idmypackage}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!responsePackage.ok) {
+          throw new Error(`HTTP error! status: ${responsePackage.status}`);
+        }
+
+        const resultPackage = await responsePackage.json();
+
+        if (resultPackage.data ) {
+          setPackageData(resultPackage.data);
+        } else {
+          throw new Error("Data received is not an array");
+        }
+
+      } catch (error) {
+        console.error("Fetch error:", error.message);
+        setError("Failed to fetch data from server.");
+      }
+    };
+
+    fetchPackageData();
+  }, []);
 
   const deleteOrder = async (e) => {
     e.preventDefault();
@@ -93,14 +129,15 @@ export default function OrderUser({
     <div className="p-4">
       <div className="bg-pink-200 text-teal-800 p-4 rounded-md hover:bg-pink-300 flex justify-center items-center w-72">
         <div className="flex flex-col items-center">
-          <h1 className="text-4xl font-bold">{mypackage}</h1>
-          <p>ราคา {price} บาท</p>
-          <p>ซัก {wash} kg</p>
-          <p>อบ {dry} นาที</p>
+          <h1 className="text-4xl font-bold">Size: {mypackage}</h1>
+          
+          <p>ราคา: {packageData?.price} บาท</p>
+          <p>ซัก: {packageData?.wash} kg</p>
+          <p>อบ: {packageData?.dry} นาที</p>
           <p>น้ำยาปรับผ้านุ่ม: {fabrisoftener} </p>
           <p>อุณหภูมิน้ำ: {watertmp} </p>
           <p>สถานะ: {status}</p>
-          <h2 className="text-xl font-bold">ราคารวม {price} บาท</h2>
+          <h2 className="text-xl font-bold">ราคารวม {} บาท</h2>
           <div className="flex flex-wrap">
             <div className="px-2">
               <button

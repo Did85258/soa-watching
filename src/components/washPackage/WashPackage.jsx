@@ -30,7 +30,7 @@ export default function WashPackage({
       console.log(temp);
       console.log(softener);
       console.log(packageId);
-      const responseCreate = await fetch(`${BASE_URL}/orders/cerate`, {
+      const responseCreate = await fetch(`${BASE_URL}/orders/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
