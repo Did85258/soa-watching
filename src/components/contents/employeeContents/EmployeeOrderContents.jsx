@@ -75,9 +75,86 @@ export default function ManageOrderContent() {
     setSlipImage("");
   };
 
-  const handleChangeStatus = (orderId, newStatus) => {
-    // Implement the function to change the order status
+  // ฟังก์ชันสำหรับเปลี่ยนสถานะและยิง API
+  const handleChangeStatus = async (orderId, newStatus) => {
+    try {
+      const token = localStorage.getItem("employeeToken");
+      const empID = localStorage.getItem("employeeId");
+  
+      if (!token) {
+        console.error("Token not found");
+        return;
+      }
+  
+      if (!empID) {
+        console.error("Employee ID not found");
+        return;
+      }
+  
+      let url = "";
+      let body = {};
+  
+      // เลือก URL และ Body ตามสถานะใหม่ที่กำหนด
+      switch (newStatus) {
+        case "Sending":
+          url = `${BASE_URL}/emp/orders/EmpBySender`;
+          body = { id: orderId, emp: empID };
+          break;
+        case "Payment Success":
+          url = `${BASE_URL}/emp/orders/EmpByCheck`;
+          body = { id: orderId, emp: empID };
+          break;
+        case "Receiving":
+          url = `${BASE_URL}/emp/orders/EmpByReciever`;
+          body = { id: orderId, emp: empID };
+          break;
+        default:
+            url = "http://localhost:8082/orders/Status";
+            body = { id: orderId, status: newStatus };
+            break;
+      }
+  
+      // เรียก API แรกตามสถานะที่เลือก
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+  
+      if (response.ok) {
+        console.log("First API call succeeded");
+  
+        // เมื่อ API แรกสำเร็จ ให้เรียก API เปลี่ยนสถานะต่อไป
+        const statusUrl = `${BASE_URL}/orders/Status`;
+        const statusBody = { id: orderId, status: newStatus };
+  
+        const statusResponse = await fetch(statusUrl, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(statusBody),
+        });
+  
+        if (statusResponse.ok) {
+          const result = await statusResponse.json();
+          console.log("Status updated:", result);
+          
+        } else {
+          console.error("Error updating status:", statusResponse.status);
+        }
+      } else {
+        console.error("Error in first API call:", response.status);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
+  
 
   return (
     <div className="px-6 py-8 mt-14 lg:ml-64 h-auto">
@@ -165,6 +242,8 @@ export default function ManageOrderContent() {
                           ? "💳 Payment Pending"
                           : row.status === "Payment Transferred"
                           ? "💸 Payment Transferred"
+                          : row.status === "Payment Success"
+                          ? "💰 Payment Success"
                           : row.status === "Receiving"
                           ? "📥 Receiving"
                           : row.status === "Washing"
@@ -174,25 +253,93 @@ export default function ManageOrderContent() {
                           : ""}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-700">
-                        {/* ปุ่มเปลี่ยนสถานะ */}
-                        <select
-                          className="p-2 border border-gray-300 rounded-lg"
-                          value={row.status}
-                          onChange={(e) =>
-                            handleChangeStatus(row.id, e.target.value)
-                          }
-                        >
-                          <option value="Payment Pending">
+                        {/* ปุ่มเปลี่ยนสถานะแต่ละแบบ */}
+                        <div className="flex flex-wrap gap-2">
+                          <button
+                            className={`px-3 py-1 rounded-lg ${
+                              row.status === "Payment Pending"
+                                ? "bg-yellow-500"
+                                : "bg-gray-200"
+                            }`}
+                            onClick={() =>
+                              handleChangeStatus(row.id, "Payment Pending")
+                            }
+                          >
                             Payment Pending
-                          </option>
-                          <option value="Payment Transferred">
+                          </button>
+                          <button
+                            className={`px-3 py-1 rounded-lg ${
+                              row.status === "Payment Transferred"
+                                ? "bg-blue-500"
+                                : "bg-gray-200"
+                            }`}
+                            onClick={() =>
+                              handleChangeStatus(row.id, "Payment Transferred")
+                            }
+                          >
                             Payment Transferred
-                          </option>
-                          <option value="Receiving">Receiving</option>
-                          <option value="Washing">Washing</option>
-                          <option value="Sending">Sending</option>
-                          <option value="Success">Success</option>
-                        </select>
+                          </button>
+                          <button
+                            className={`px-3 py-1 rounded-lg ${
+                              row.status === "Payment Success"
+                                ? "bg-green-400"
+                                : "bg-gray-200"
+                            }`}
+                            onClick={() =>
+                              handleChangeStatus(row.id, "Payment Success")
+                            }
+                          >
+                            Payment Success
+                          </button>
+                          <button
+                            className={`px-3 py-1 rounded-lg ${
+                              row.status === "Receiving"
+                                ? "bg-green-500"
+                                : "bg-gray-200"
+                            }`}
+                            onClick={() =>
+                              handleChangeStatus(row.id, "Receiving")
+                            }
+                          >
+                            Receiving
+                          </button>
+                          <button
+                            className={`px-3 py-1 rounded-lg ${
+                              row.status === "Washing"
+                                ? "bg-purple-500"
+                                : "bg-gray-200"
+                            }`}
+                            onClick={() =>
+                              handleChangeStatus(row.id, "Washing")
+                            }
+                          >
+                            Washing
+                          </button>
+                          <button
+                            className={`px-3 py-1 rounded-lg ${
+                              row.status === "Sending"
+                                ? "bg-orange-500"
+                                : "bg-gray-200"
+                            }`}
+                            onClick={() =>
+                              handleChangeStatus(row.id, "Sending")
+                            }
+                          >
+                            Sending
+                          </button>
+                          <button
+                            className={`px-3 py-1 rounded-lg ${
+                              row.status === "Success"
+                                ? "bg-green-700"
+                                : "bg-gray-200"
+                            }`}
+                            onClick={() =>
+                              handleChangeStatus(row.id, "Success")
+                            }
+                          >
+                            Success
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}

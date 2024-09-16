@@ -23,10 +23,10 @@ ChartJS.register(
 
 const StatusChart = () => {
   const [chartData, setChartData] = useState({
-    labels: [],
+    
     datasets: [
       {
-        label: "Order Status",
+        label: "",
         data: [],
         backgroundColor: [
           "rgba(255, 99, 132, 0.8)",
@@ -53,12 +53,7 @@ const StatusChart = () => {
   const options = {
     responsive: true,
     plugins: {
-      legend: {
-        position: "top",
-        labels: {
-          color: "#fff", // สีของ label
-        },
-      },
+      
       title: {
         display: true,
         text: "Order Status Distribution",

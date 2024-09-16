@@ -97,7 +97,8 @@ export default function historyContent() {
                    row.status === 'Payment Transferred' ? '💸  Payment Transferred' : 
                   row.status === 'Receiving' ? '📥 Receiving' :
                   row.status === 'Washing' ? '🏠 Washing' :
-                  row.status === 'Sending' ? '🛵 Sending' : ''}
+                  row.status === 'Sending' ? '🛵 Sending' :
+                  row.status === "Payment Success" ? '💰 Payment Success' :''}
                   </td>
                 </tr>
               ))}
