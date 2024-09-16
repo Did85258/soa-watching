@@ -40,7 +40,7 @@ export default function Login() {
         localStorage.setItem("userId", data.userId);
         localStorage.setItem("userName", data.userName);
         setError("");
-        navigate("/home");
+        
         Swal.fire({
           title: "Success!",
           text: "Login successful.",
@@ -48,6 +48,7 @@ export default function Login() {
           confirmButtonText: "OK",
         }).then((result) => {
           if (result.isConfirmed) {
+            navigate("/home");
             window.location.reload();
           }
         });
