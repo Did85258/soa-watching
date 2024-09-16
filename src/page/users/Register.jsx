@@ -96,6 +96,10 @@ export default function Register() {
     setAddress(event.target.value);
   };
 
+  const handleRegisterClick = () => {
+    navigate("/login"); // ไปที่ path /register
+  };
+
   return (
     <section className="bg-gray-900 w-screen h-screen">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -192,7 +196,17 @@ export default function Register() {
                 className="w-full text-white hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-primary-700 focus:ring-primary-800"
               >
                 Sign up
+                
               </button>
+              <p className="text-sm text-gray-300">
+              มีบัญชีแล้ว?{" "}
+              <span
+                onClick={handleRegisterClick}
+                className="text-blue-500 hover:underline cursor-pointer"
+              >
+                Login your account
+              </span>
+              </p>
             </form>
           </div>
         </div>

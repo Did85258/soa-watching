@@ -79,7 +79,13 @@ export default function Login() {
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
+    
   };
+    
+  
+    const handleRegisterClick = () => {
+      navigate("/register"); // ไปที่ path /register
+    };
 
   return (
     <section className="bg-gray-900 w-screen h-screen">
@@ -129,6 +135,15 @@ export default function Login() {
               >
                 Sign in
               </button>
+              <p className="text-sm text-gray-300">
+              ยังไม่มีบัญชี?{" "}
+              <span
+                onClick={handleRegisterClick}
+                className="text-blue-500 hover:underline cursor-pointer"
+              >
+                Create account
+              </span>
+            </p>
             </form>
           </div>
         </div>
