@@ -3,8 +3,8 @@ import SideMenu from "./SideMenu";
 import Swal from "sweetalert2";
 
 const linkHome = "http://localhost:5173/employee/home";
-const linkHome2 = "http://localhost:5173/";
-const linkHome3 = "http://localhost:5173/history";
+const linkHome2 = "http://localhost:5173/employee/manageorder";
+const linkHome3 = "http://localhost:5173/";
 
 function Sidebar() {
   const navigate = useNavigate();

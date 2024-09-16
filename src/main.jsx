@@ -14,6 +14,8 @@ import Register from "./page/users/Register.jsx";
 
 import LoginEmployee from "./page/employees/LoginEmployee.jsx";
 import Employeehome from "./page/employees/HomeEmployee.jsx";
+import ManageOrderContent from "./components/contents/employeeContents/EmployeeOrderContents.jsx";
+import ManageOrderEmployee from "./page/employees/ManagOrders.jsx";
 
 
 
@@ -53,6 +55,10 @@ const router = createBrowserRouter([
   {
     path: "/employee/home",
     element: <Employeehome />,
+  },
+  {
+    path: "/employee/manageorder",
+    element: <ManageOrderEmployee />,
   },
 
 
