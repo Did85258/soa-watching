@@ -11,6 +11,7 @@ import ProtectedRoute from "./components/Protect/ProtectedRoute.jsx";
 import Orders from "./page/users/Orders.jsx";
 import History from "./page/users/History.jsx";
 import Register from "./page/users/Register.jsx";
+import Emplyeehome from "./page/employees/Homeemployee.jsx";
 
 
 
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/employee/home",
+    element: <Emplyeehome />,
   },
 
 
