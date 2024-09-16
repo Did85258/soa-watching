@@ -1,12 +1,12 @@
 
-import Navbar from "../../components/navbar/NavbarUser";
-import Sidebar from "../../components/sidebar/SidebarUser";
+import EmployeeNavbar from "../../components/navbar/NavbarEmployee";
+import EmployeeSidebar from "../../components/sidebar/SidebarEmployee";
 import EmployeeHomeContent from "../../components/contents/employeeContents/EmployeeHomeContent";
-export default function Home() {
+export default function HomeEmployee() {
   return (
     <>
-      <Navbar />
-      <Sidebar />
+      <EmployeeNavbar />
+      <EmployeeSidebar />
       <EmployeeHomeContent />
     </>
   );
