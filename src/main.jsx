@@ -10,6 +10,7 @@ import Home from "./page/users/Home.jsx";
 import ProtectedRoute from "./components/Protect/ProtectedRoute.jsx";
 import Orders from "./page/users/Orders.jsx";
 import History from "./page/users/History.jsx";
+import Register from "./page/users/Register.jsx";
 
 
 
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <ProtectedRoute element={<Home />} />, // ใช้ ProtectedRoute สำหรับ Home
+  },
+  {
+    path: "/",
+    element: <Login />,
   },
   {
     path: "/login",
@@ -33,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: "/history",
     element: <ProtectedRoute element={<History />} />, // ใช้ ProtectedRoute สำหรับ Test
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
 
 
