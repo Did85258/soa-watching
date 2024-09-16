@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import App from "./App.jsx";
+
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "flowbite";
@@ -9,6 +9,8 @@ import Test from "./page/test.jsx";
 import Home from "./page/users/Home.jsx";
 import ProtectedRoute from "./components/Protect/ProtectedRoute.jsx";
 import Orders from "./page/users/Orders.jsx";
+import History from "./page/users/History.jsx";
+
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/test",
     element: <ProtectedRoute element={<Test />} />, // ใช้ ProtectedRoute สำหรับ Test
+  },
+  {
+    path: "/history",
+    element: <ProtectedRoute element={<History />} />, // ใช้ ProtectedRoute สำหรับ Test
   },
 
 
