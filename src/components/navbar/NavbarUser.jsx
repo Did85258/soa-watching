@@ -19,7 +19,7 @@ function Navbar() {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        localStorage.removeItem("authToken");
+        localStorage.removeItem("userToken");
         localStorage.removeItem("userId");
         localStorage.removeItem("userName");
         navigate("/login");
