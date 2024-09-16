@@ -11,7 +11,15 @@ import {
   Legend,
 } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartDataLabels);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ChartDataLabels
+);
 
 const StatusChart = () => {
   const [chartData, setChartData] = useState({
@@ -88,27 +96,31 @@ const StatusChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8082/emp/orders/chartstatus", {
-          method: "GET",
-          headers: {
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcyNjUwNzg2OCwiZXhwIjoxNzI2NTQzODY4fQ.MGQgpSKgQksi-crbzZOE4BMeyysmzKfXM3_JNcb1kNc", // แนบ Bearer Token
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          "http://localhost:8082/emp/orders/chartstatus",
+          {
+            method: "GET",
+            headers: {
+              Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcyNjUwNzg2OCwiZXhwIjoxNzI2NTQzODY4fQ.MGQgpSKgQksi-crbzZOE4BMeyysmzKfXM3_JNcb1kNc", // แนบ Bearer Token
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         const result = await response.json();
         if (result.code === 200) {
-          const labels = result.data.map(item => item.status);
-          const data = result.data.map(item => item.count);
+          const labels = result.data.map((item) => item.status);
+          const data = result.data.map((item) => item.count);
 
-          setChartData(prevData => ({
+          setChartData((prevData) => ({
             ...prevData,
             labels: labels,
             datasets: [
               {
                 ...prevData.datasets[0],
                 data: data,
-              }
+              },
             ],
           }));
         }
@@ -124,26 +136,13 @@ const StatusChart = () => {
     <div className="px-2 py-3 mt-14 lg:ml-64 h-auto ">
       <div className="pt-1 grid overflow-x-auto">
         <div className="flex items-start h-full justify-center  ">
-          <div className="p-4 grid 2 h-auto items-start">
-            
-            <div className="justify-center text-center py-2">
-              <span className="self-center text-xl font-semibold md:text-2xl whitespace-nowrap ">
-                สถานะOrderทั้งหมด
-              </span>
-            </div>
-            
-            <div>
-
-            </div>
-          </div>
-          <div className="w-full max-w-4xl mx-auto mt-52 bg-gray-900 p-4 rounded-lg shadow-lg ">
+          
+          <div className="w-full max-w-4xl mx-auto mt-5 bg-gray-900 p-4 rounded-lg shadow-lg ">
             <Bar data={chartData} options={options} />
           </div>
         </div>
-        
       </div>
     </div>
-    
   );
 };
 

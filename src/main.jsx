@@ -13,7 +13,7 @@ import History from "./page/users/History.jsx";
 import Register from "./page/users/Register.jsx";
 
 import LoginEmployee from "./page/employees/LoginEmployee.jsx";
-import Employeehome from "./page/employees/Homeemployee.jsx";
+import Employeehome from "./page/employees/HomeEmployee.jsx";
 
 
 
