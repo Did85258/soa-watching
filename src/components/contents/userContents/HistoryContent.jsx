@@ -96,6 +96,7 @@ export default function historyContent() {
                   <td className="px-6 py-4 text-sm text-gray-700">
                   {row.status === 'Success' ? '✅ Success' : 
                   row.status === 'Payment Pending' ? '💳 Payment Pending' :
+                   row.status === 'Payment Transferred' ? '💸  Payment Transferred' : 
                   row.status === 'Receiving' ? '📥 Receiving' :
                   row.status === 'Washing' ? '🏠 Washing' :
                   row.status === 'Sending' ? '🛵 Sending' : ''}
