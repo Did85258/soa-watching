@@ -71,6 +71,7 @@ export default function historyContent() {
                 <th className="px-6 py-4 text-left text-sm font-medium uppercase">อุณหภูมิน้ำ</th>
                 <th className="px-6 py-4 text-left text-sm font-medium uppercase">น้ำยาปรับผ้านุ่ม</th>
                 <th className="px-6 py-4 text-left text-sm font-medium uppercase">Package</th>
+                <th className="px-6 py-4 text-left text-sm font-medium uppercase">รูปภาพ</th>
 
                 <th className="px-6 py-4 text-left text-sm font-medium uppercase">พนักเช็ค</th>
                 <th className="px-6 py-4 text-left text-sm font-medium uppercase">พนักรับ</th>
@@ -88,6 +89,7 @@ export default function historyContent() {
                   <td className="px-6 py-4 text-sm text-gray-700">{row.watertmp}</td>
                   <td className="px-6 py-4 text-sm text-gray-700">{row.fabrisoftener}</td>
                   <td className="px-6 py-4 text-sm text-gray-700">{row.mypackage}</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">{row.id}</td>
 
                   <td className="px-6 py-4 text-sm text-gray-700">{row.empbycheck|| '-'}</td>
                   <td className="px-6 py-4 text-sm text-gray-700">{row.empbysender|| '-'}</td>

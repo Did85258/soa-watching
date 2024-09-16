@@ -55,7 +55,7 @@ export default function OrderContent() {
           <div className="p-4 grid h-auto">
             <div className="justify-center text-center py-2">
               <span className="self-center text-xl font-semibold md:text-2xl whitespace-nowrap">
-                Package
+                Order
               </span>
             </div>
             <div className="row-span-3 relative overflow-x-auto md:rounded-lg flex  flex-wrap justify-center items-center">

@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 
 const BASE_URL = "http://localhost:8082"
 
-export default function Login() {
+export default function LoginEmployee() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -25,7 +25,7 @@ export default function Login() {
   const Login = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${BASE_URL}/public/loginUser`, {
+      const response = await fetch(`${BASE_URL}/public/loginEmp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,9 +40,9 @@ export default function Login() {
       const data = await response.json();
 
       if (data.token) {
-        localStorage.setItem("userToken", data.token);
-        localStorage.setItem("userId", data.userId);
-        localStorage.setItem("userName", data.userName);
+        localStorage.setItem("employeeToken", data.token);
+        localStorage.setItem("employeeId", data.employeeId);
+        localStorage.setItem("employeeName", data.employeeName);
         setError("");
         
         Swal.fire({
@@ -52,7 +52,7 @@ export default function Login() {
           confirmButtonText: "OK",
         }).then((result) => {
           if (result.isConfirmed) {
-            navigate("/home");
+            navigate("/employee/home");
             window.location.reload();
           }
         });
