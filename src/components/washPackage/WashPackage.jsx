@@ -28,7 +28,7 @@ export default function WashPackage({
       const userId = localStorage.getItem("userId");
       // console.log(userId);
       // console.log(temp);
-      console.log(softener);
+      // console.log(softener);
       // console.log(packageId);
       const responseCreate = await fetch(`${BASE_URL}/orders/create`, {
         method: "POST",
@@ -46,7 +46,7 @@ export default function WashPackage({
       });
 
       if (responseCreate.ok) {
-        navigate("/orders");
+        
         Swal.fire({
           title: "Success!",
           text: "Order successful.",
@@ -54,6 +54,7 @@ export default function WashPackage({
           confirmButtonText: "OK",
         }).then((result) => {
           if (result.isConfirmed) {
+            navigate("/orders");
             window.location.reload();
           }
         });

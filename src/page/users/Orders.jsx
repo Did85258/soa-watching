@@ -1,4 +1,4 @@
-import OrderContent from "../../components/contents/userContents/OrderCenternt";
+import OrderContent from "../../components/contents/userContents/OrderConternt";
 import Navbar from "../../components/navbar/NavbarUser";
 import Sidebar from "../../components/sidebar/SidebarUser";
 
