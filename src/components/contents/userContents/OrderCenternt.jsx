@@ -51,7 +51,7 @@ export default function OrderContent() {
   return (
     <div className="px-2 py-3 mt-14 lg:ml-64 h-auto">
       <div className="pt-1 grid overflow-x-auto">
-        <div className="flex items-start h-full justify-center bg-gray-200">
+        <div className="flex items-start h-full justify-center ">
           <div className="p-4 grid h-auto">
             <div className="justify-center text-center py-2">
               <span className="self-center text-xl font-semibold md:text-2xl whitespace-nowrap">
@@ -65,7 +65,9 @@ export default function OrderContent() {
                   idmypackage={item.idmypackage}
                   mypackage={item.mypackage}
                   fabrisoftener={item.fabrisoftener}
+                  idfabrisoftener={item.idfabrisoftener}
                   watertmp={item.watertmp}
+                  idwatertmp={item.idwatertmp}
                   status={item.status}
                   orderId={item.id}
                 />

@@ -26,10 +26,10 @@ export default function WashPackage({
     try {
       const token = localStorage.getItem("userToken");
       const userId = localStorage.getItem("userId");
-      console.log(userId);
-      console.log(temp);
+      // console.log(userId);
+      // console.log(temp);
       console.log(softener);
-      console.log(packageId);
+      // console.log(packageId);
       const responseCreate = await fetch(`${BASE_URL}/orders/create`, {
         method: "POST",
         headers: {

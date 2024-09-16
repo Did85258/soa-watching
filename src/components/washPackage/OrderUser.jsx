@@ -5,12 +5,17 @@ export default function OrderUser({
   idmypackage,
   mypackage,
   fabrisoftener,
+  idfabrisoftener,
   watertmp,
+  idwatertmp,
   status,
   orderId,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [packageData, setPackageData] = useState();
+  const [softenerData, setSoftener] = useState();
+  const [TempData, setTemp] = useState();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -29,26 +34,72 @@ export default function OrderUser({
           return;
         }
 
-        const responsePackage = await fetch(`${BASE_URL}/mypackage/readById?id=${idmypackage}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const responsePackage = await fetch(
+          `${BASE_URL}/mypackage/readById?id=${idmypackage}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const responseSoftener = await fetch(
+          `${BASE_URL}/fab/readById?id=${idfabrisoftener}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const responseTemp = await fetch(
+          `${BASE_URL}/water/readById?id=${idfabrisoftener}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (!responsePackage.ok) {
           throw new Error(`HTTP error! status: ${responsePackage.status}`);
         }
 
-        const resultPackage = await responsePackage.json();
+        if (!responseSoftener.ok) {
+          throw new Error(`HTTP error! status: ${responseSoftener.status}`);
+        }
 
-        if (resultPackage.data ) {
+        if (!responseTemp.ok) {
+          throw new Error(`HTTP error! status: ${responseTemp.status}`);
+        }
+
+        const resultPackage = await responsePackage.json();
+        const resultSoftener = await responseSoftener.json();
+        const resultTemp = await responseTemp.json();
+
+        if (resultPackage.data) {
           setPackageData(resultPackage.data);
         } else {
           throw new Error("Data received is not an array");
         }
 
+        if (resultSoftener.data) {
+          setSoftener(resultSoftener.data);
+        } else {
+          throw new Error("Data received is not an array");
+        }
+
+        if (resultTemp.data) {
+          setTemp(resultTemp.data);
+        } else {
+          throw new Error("Data received is not an array");
+        }
       } catch (error) {
         console.error("Fetch error:", error.message);
         setError("Failed to fetch data from server.");
@@ -57,6 +108,7 @@ export default function OrderUser({
 
     fetchPackageData();
   }, []);
+  //  console.log(TempData);
 
   const deleteOrder = async (e) => {
     e.preventDefault();
@@ -130,14 +182,17 @@ export default function OrderUser({
       <div className="bg-pink-200 text-teal-800 p-4 rounded-md hover:bg-pink-300 flex justify-center items-center w-72">
         <div className="flex flex-col items-center">
           <h1 className="text-4xl font-bold">Size: {mypackage}</h1>
-          
+
           <p>ราคา: {packageData?.price} บาท</p>
           <p>ซัก: {packageData?.wash} kg</p>
           <p>อบ: {packageData?.dry} นาที</p>
           <p>น้ำยาปรับผ้านุ่ม: {fabrisoftener} </p>
           <p>อุณหภูมิน้ำ: {watertmp} </p>
           <p>สถานะ: {status}</p>
-          <h2 className="text-xl font-bold">ราคารวม {} บาท</h2>
+          <h2 className="text-xl font-bold">
+            ราคารวม:{" "}
+            {softenerData?.price + TempData?.price + packageData?.price} บาท
+          </h2>
           <div className="flex flex-wrap">
             <div className="px-2">
               <button
@@ -164,10 +219,22 @@ export default function OrderUser({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg w-96">
             <h2 className="text-2xl font-semibold mb-4">การชำระเงิน</h2>
-            <p>ข้อมูลแพ็กเกจขนาด S</p>
-            <p>ราคา: 100 บาท</p>
-            <p>ซัก 10.5 kg</p>
-            <p>อบ 25 นาที</p>
+            <img src="/src/assets/pp.jpg" />
+            <h2 className="text-xl font-bold">
+              ราคารวม:{" "}
+              {softenerData?.price + TempData?.price + packageData?.price} บาท
+            </h2>
+            <div className="image-upload p-2">
+              <input
+                type="file"
+                accept="image/*"
+                // onChange={handleImageChange}
+              />
+            
+              <button >
+                Upload Image
+              </button>
+            </div>
             <button
               className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
               onClick={closeModal}
