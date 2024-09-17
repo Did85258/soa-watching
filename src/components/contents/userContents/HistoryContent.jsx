@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
 import OrderUser from "../../washPackage/OrderUser";
 import React from "react";
+import HistoryImage from "../../washPackage/HistoryImage";
 
 const BASE_URL = "http://localhost:8082";
 
 export default function historyContent() {
   
-  const data = [
-    { id: 1, name: "John Doe", age: 28 },
-    { id: 2, name: "Jane Smith", age: 22 },
-    { id: 3, name: "Bob Johnson", age: 35 },
-  ];
   const [orderData, setOrderData] = useState([]);
   useEffect(() => {
     const fetcHitoryData = async () => {
@@ -66,7 +62,7 @@ export default function historyContent() {
           <table className="min-w-full divide-y divide-gray-300">
             <thead className="bg-blue-500 text-white">
               <tr>
-                <th className="px-6 py-4 text-left text-sm font-medium uppercase">#</th>
+                <th className="px-6 py-4 text-left text-sm font-medium uppercase">No.</th>
                 
                 <th className="px-6 py-4 text-left text-sm font-medium uppercase">อุณหภูมิน้ำ</th>
                 <th className="px-6 py-4 text-left text-sm font-medium uppercase">น้ำยาปรับผ้านุ่ม</th>
@@ -89,7 +85,7 @@ export default function historyContent() {
                   <td className="px-6 py-4 text-sm text-gray-700">{row.watertmp}</td>
                   <td className="px-6 py-4 text-sm text-gray-700">{row.fabrisoftener}</td>
                   <td className="px-6 py-4 text-sm text-gray-700">{row.mypackage}</td>
-                  <td className="px-6 py-4 text-sm text-gray-700">{row.id}</td>
+                  <td className="px-6 py-4 text-sm text-gray-700"><HistoryImage orderId={row.id} /></td>
 
                   <td className="px-6 py-4 text-sm text-gray-700">{row.empbycheck|| '-'}</td>
                   <td className="px-6 py-4 text-sm text-gray-700">{row.empbysender|| '-'}</td>
