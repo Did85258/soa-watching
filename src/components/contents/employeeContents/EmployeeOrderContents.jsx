@@ -30,8 +30,18 @@ export default function ManageOrderContent() {
         }
 
         const resultOrder = await responseOrder.json();
-        if (resultOrder.data && Array.isArray(resultOrder.data)) {
-          setOrderData(resultOrder.data);
+        if (resultOrder.data && Array.isArray(resultOrder.data)  ) {
+          const statuses = [
+            "Payment Pending", 
+            "Payment Transferred", 
+            "Payment Success", 
+            "Receiving", 
+            "Washing", 
+            "Sending"
+          ];
+          const filteredOrders = resultOrder.data.filter(order => statuses.includes(order.status));
+      
+          setOrderData(filteredOrders);
         } else {
           throw new Error("Data received is not an array");
         }
@@ -174,6 +184,9 @@ export default function ManageOrderContent() {
                       #
                     </th>
                     <th className="px-6 py-4 text-left text-sm font-medium uppercase">
+                      ชื่อลูกค้า
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-medium uppercase">
                       อุณหภูมิน้ำ
                     </th>
                     <th className="px-6 py-4 text-left text-sm font-medium uppercase">
@@ -208,6 +221,9 @@ export default function ManageOrderContent() {
                       <td className="px-6 py-4 text-sm font-medium text-gray-900">
                         {index + 1}
                       </td>
+                      <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                        {row.user}
+                      </td>
                       <td className="px-6 py-4 text-sm text-gray-700">
                         {row.watertmp}
                       </td>
@@ -236,9 +252,8 @@ export default function ManageOrderContent() {
                         {row.empbysender || "-"}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-700">
-                        {row.status === "Success"
-                          ? "✅ Success"
-                          : row.status === "Payment Pending"
+                        {
+                          row.status === "Payment Pending"
                           ? "💳 Payment Pending"
                           : row.status === "Payment Transferred"
                           ? "💸 Payment Transferred"
