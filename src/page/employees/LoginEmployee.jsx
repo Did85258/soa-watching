@@ -84,10 +84,6 @@ export default function LoginEmployee() {
     
   };
     
-  
-    const handleRegisterClick = () => {
-      navigate("/register"); // ไปที่ path /register
-    };
 
   return (
     <section className="bg-gray-900 w-screen h-screen">
