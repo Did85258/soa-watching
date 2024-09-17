@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ element }) => {
-  const token = localStorage.getItem("userToken"); // หรือใช้วิธีการอื่นในการตรวจสอบ token
+export const ProtectedRouteUser = ({ element }) => {
+  const token = localStorage.getItem("userToken");
 
   if (!token) {
     return <Navigate to="/login" replace />;
@@ -10,4 +10,12 @@ const ProtectedRoute = ({ element }) => {
   return element;
 };
 
-export default ProtectedRoute;
+export const ProtectedRouteEmployee = ({ element }) => {
+  const token = localStorage.getItem("employeeToken");
+
+  if (!token) {
+    return <Navigate to="/employee/login" replace />;
+  }
+
+  return element;
+};
