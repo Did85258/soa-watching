@@ -53,23 +53,23 @@ export default function ManageEmpContent() {
     <div className="px-6 py-8 mt-14 lg:ml-64 h-auto">
       <div className="pt-1 grid overflow-x-auto">
         <div className="flex items-start h-full justify-center">
-          <div className="p-6 grid h-auto bg-white shadow-lg rounded-lg border border-gray-200">
+          <div className="p-6 grid h-auto bg-white shadow-lg rounded-lg border border-gray-200 w-2/3">
             <div className="text-center py-4">
               <span className="text-2xl font-semibold text-gray-800">
                 Manage Employee
               </span>
             </div>
-            <div className="relative overflow-x-auto md:rounded-lg">
+            <div className="relative overflow-x-auto md:rounded-lg w-full">
               <table className="min-w-full divide-y divide-gray-300">
                 <thead className="bg-blue-500 text-white">
                   <tr>
-                    <th className="px-6 py-4 text-left text-sm font-medium uppercase">
+                    <th className="px-6 py-4 text-center  text-sm font-medium uppercase">
                       #
                     </th>
-                    <th className="px-6 py-4 text-left text-sm font-medium uppercase">
+                    <th className="px-6 py-4 text-center  text-sm font-medium uppercase">
                       ชื่อพนัก
                     </th>
-                    <th className="px-6 py-4 text-left text-sm font-medium uppercase">
+                    <th className="px-6 py-4 text-center  text-sm font-medium uppercase">
                       ตำแหน่ง
                     </th>
 
@@ -78,13 +78,13 @@ export default function ManageEmpContent() {
                 <tbody className="bg-white divide-y divide-gray-300">
                   {empData.map((row, index) => (
                     <tr key={row.id} className="hover:bg-gray-100">
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                      <td className="px-6 py-4 text-center text-sm font-medium text-gray-900">
                         {index + 1}
                       </td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                      <td className="px-6 py-4 text-center text-sm font-medium text-gray-900">
                         {row.name}
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
+                      <td className="px-6 py-4 text-center text-sm text-gray-700">
                         {row.position}
                       </td>
                     
