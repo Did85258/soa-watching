@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-Modal.setAppElement('#root');
+Modal.setAppElement("#root");
 
 const BASE_URL = "http://localhost:8082";
 
@@ -11,6 +11,8 @@ export default function SoftenerContent() {
 
   const [softenerName, setSoftenerName] = useState("");
   const [softenerPrice, setSoftenerPrice] = useState();
+
+  const [softenerDeleteId, setSoftenerDeleteId] = useState();
 
   useEffect(() => {
     const fetchSoftenerData = async () => {
@@ -57,6 +59,7 @@ export default function SoftenerContent() {
         console.error("No token found");
         return;
       }
+      console.log(token);
       const responseCreate = await fetch(`${BASE_URL}/emp/fab/create`, {
         method: "POST",
         headers: {
@@ -65,7 +68,7 @@ export default function SoftenerContent() {
         },
         body: JSON.stringify({ name: softenerName, price: softenerPrice }),
       });
-      console.log(responseCreate);
+
       if (responseCreate.ok) {
         Swal.fire({
           title: "Create Success!",
@@ -74,9 +77,7 @@ export default function SoftenerContent() {
           confirmButtonText: "OK",
         }).then((result) => {
           if (result.isConfirmed) {
-            // Refresh data or close modal
-            setModalIsOpen(false);
-            // Optionally fetch the updated data here
+            window.location.reload();
           }
         });
       } else {
@@ -98,7 +99,55 @@ export default function SoftenerContent() {
     }
   };
 
-  
+  const deleteSoftener = async (id) => {
+    try {
+      const token = localStorage.getItem("employeeToken");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+      console.log(id);
+      await Swal.fire({
+        title: "Are you sure?",
+        text: "You will Change Status the order.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "Cancel",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const responseDelete = await fetch(
+            `${BASE_URL}/emp/fab/delete?id=${id}`,
+            {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (responseDelete.ok) {
+            window.location.reload();
+          } else {
+            Swal.fire({
+              title: "Error  ?",
+              text: "Error Delete Softener!",
+              icon: "warning",
+              confirmButtonText: "OK",
+            });
+          }
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to Create.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+  };
 
   const closeModal = () => {
     setModalIsOpen(false);
@@ -168,7 +217,10 @@ export default function SoftenerContent() {
                         </button>
                       </td>
                       <td className="px-6 py-4 text-center text-sm text-gray-700">
-                        <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                        <button
+                          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                          onClick={() => deleteSoftener(row.id)}
+                        >
                           ลบ
                         </button>
                       </td>
@@ -198,7 +250,7 @@ export default function SoftenerContent() {
       >
         <div className="bg-white p-4 rounded-lg shadow-lg">
           <h2 className="text-lg font-semibold mb-4 text-center">Softener</h2>
-          <form className=""  onSubmit={CreateSoftener}>
+          <form className="" onSubmit={CreateSoftener}>
             <div className="flex items-center">
               ชื่อน้ำยา
               <input
