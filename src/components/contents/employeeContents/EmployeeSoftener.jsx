@@ -152,7 +152,8 @@ export default function SoftenerContent() {
     }
   };
 
-  const updateSoftener = async () => {
+  const updateSoftener = async (e) => {
+    e.preventDefault();
     try {
       const token = localStorage.getItem("employeeToken");
       if (!token) {
@@ -172,19 +173,15 @@ export default function SoftenerContent() {
 
       if (responseUpdate.ok) {
         Swal.fire({
-          title: "Create Success!",
-          text: "Create Softener Success!",
+          title: "Update Success!",
+          text: "Update Softener Success!",
           icon: "success",
           confirmButtonText: "OK",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // window.location.reload();s
-          }
-        });
+        })  
       } else {
         Swal.fire({
           title: "Error!",
-          text: "Failed to Create.",
+          text: "Failed to Update.",
           icon: "error",
           confirmButtonText: "OK",
         });
@@ -193,7 +190,7 @@ export default function SoftenerContent() {
       console.error("Error:", error);
       Swal.fire({
         title: "Error!",
-        text: "Failed to Create.",
+        text: "Failed to Update.",
         icon: "error",
         confirmButtonText: "OK",
       });
