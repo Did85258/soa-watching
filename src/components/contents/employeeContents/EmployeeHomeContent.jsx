@@ -91,13 +91,13 @@ const StatusChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = localStorage.getItem("employeeToken");
         const response = await fetch(
           "http://localhost:8082/emp/orders/chartstatus",
           {
             method: "GET",
             headers: {
-              Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcyNjUwNzg2OCwiZXhwIjoxNzI2NTQzODY4fQ.MGQgpSKgQksi-crbzZOE4BMeyysmzKfXM3_JNcb1kNc", // แนบ Bearer Token
+              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
           }

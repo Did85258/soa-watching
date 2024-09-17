@@ -65,7 +65,7 @@ function Navbar() {
                 >
                   <div className="px-4 py-3" role="none">
                     <p className="text-sm text-white" role="none">
-                      Employee : {localStorage.getItem("userName")}
+                      Employee : {localStorage.getItem("employeeName")}
                     </p>
                     <p
                       className="text-sm font-medium  truncate text-gray-300"

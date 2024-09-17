@@ -13,13 +13,10 @@ export default function LoginEmployee() {
 
   useEffect(() => {
     const token = localStorage.getItem("employeeToken");
-    const token2 = localStorage.getItem("userToken");
     if (token) {
       navigate("/employee/home");
     }
-    if(token2){
-      navigate("/home");
-    }
+  
   }, [navigate]);
 
   const Login = async (e) => {
