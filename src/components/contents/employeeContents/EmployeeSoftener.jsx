@@ -198,8 +198,8 @@ export default function SoftenerContent() {
       >
         <div className="bg-white p-4 rounded-lg shadow-lg">
           <h2 className="text-lg font-semibold mb-4 text-center">Softener</h2>
-          <form className="">
-            <div className="flex items-center" onSubmit={CreateSoftener}>
+          <form className=""  onSubmit={CreateSoftener}>
+            <div className="flex items-center">
               ชื่อน้ำยา
               <input
                 type="text"
