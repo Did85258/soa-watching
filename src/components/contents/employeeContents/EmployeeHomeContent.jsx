@@ -23,18 +23,20 @@ ChartJS.register(
 
 const StatusChart = () => {
   const [chartData, setChartData] = useState({
-    
+    labels: [],
     datasets: [
       {
-        label: "",
+        label: "Order Status",
         data: [],
         backgroundColor: [
-          "rgba(255, 99, 132, 0.8)",
-          "rgba(54, 162, 235, 0.8)",
-          "rgba(255, 206, 86, 0.8)",
-          "rgba(75, 192, 192, 0.8)",
-          "rgba(153, 102, 255, 0.8)",
-          "rgba(255, 159, 64, 0.8)",
+          "rgba(255, 99, 132, 0.8)", // Payment Pending
+          "rgba(54, 162, 235, 0.8)", // Payment Transferred
+          "rgba(255, 206, 86, 0.8)", // Payment Success
+          "rgba(75, 192, 192, 0.8)", // Receiving
+          "rgba(153, 102, 255, 0.8)", // Washing
+          "rgba(255, 159, 64, 0.8)", // Sending
+          "rgba(201, 203, 207, 0.8)", // Order Cancel
+          "rgba(0, 255, 127, 0.8)", // Success
         ],
         borderColor: [
           "rgba(255, 99, 132, 1)",
@@ -43,9 +45,11 @@ const StatusChart = () => {
           "rgba(75, 192, 192, 1)",
           "rgba(153, 102, 255, 1)",
           "rgba(255, 159, 64, 1)",
+          "rgba(201, 203, 207, 1)",
+          "rgba(0, 255, 127, 1)",
         ],
         borderWidth: 2,
-        barPercentage: 0.6, // ความกว้างของแถบ
+        barPercentage: 0.6,
       },
     ],
   });
@@ -53,10 +57,9 @@ const StatusChart = () => {
   const options = {
     responsive: true,
     plugins: {
-      
       title: {
         display: true,
-        text: "Order Status Distribution",
+        text: "Order Status ทั้งหมด",
         color: "#fff",
         font: {
           size: 20,
@@ -69,20 +72,20 @@ const StatusChart = () => {
         font: {
           weight: "bold",
         },
-        formatter: (value, context) => {
-          return value; // แสดงจำนวนที่ด้านบนของแต่ละแท่ง
+        formatter: (value) => {
+          return value; // Show the count on top of each bar
         },
       },
     },
     scales: {
       x: {
         ticks: {
-          color: "#fff", // สีของ label แกน x
+          color: "#fff", // X-axis labels color
         },
       },
       y: {
         ticks: {
-          color: "#fff", // สีของ label แกน y
+          color: "#fff", // Y-axis labels color
         },
       },
     },
@@ -105,12 +108,25 @@ const StatusChart = () => {
 
         const result = await response.json();
         if (result.code === 200) {
-          const labels = result.data.map((item) => item.status);
-          const data = result.data.map((item) => item.count);
+          const statusLabels = [
+            "Payment Pending",
+            "Payment Transferred",
+            "Payment Success",
+            "Receiving",
+            "Washing",
+            "Sending",
+            "Order Cancel",
+            "Success",
+          ];
+          
+          const data = statusLabels.map((status) => {
+            const statusItem = result.data.find((item) => item.status === status);
+            return statusItem ? statusItem.count : 0;
+          });
 
           setChartData((prevData) => ({
             ...prevData,
-            labels: labels,
+            labels: statusLabels,
             datasets: [
               {
                 ...prevData.datasets[0],
@@ -128,11 +144,10 @@ const StatusChart = () => {
   }, []);
 
   return (
-    <div className="px-2 py-3 mt-14 lg:ml-64 h-auto ">
+    <div className="px-2 py-3 mt-14 lg:ml-64 h-auto">
       <div className="pt-1 grid overflow-x-auto">
-        <div className="flex items-start h-full justify-center  ">
-          
-          <div className="w-full max-w-4xl mx-auto mt-5 bg-gray-900 p-4 rounded-lg shadow-lg ">
+        <div className="flex items-start h-full justify-center">
+          <div className="w-full max-w-4xl mx-auto mt-5 bg-gray-900 p-4 rounded-lg shadow-lg">
             <Bar data={chartData} options={options} />
           </div>
         </div>
