@@ -7,7 +7,7 @@ import "flowbite";
 import Login from "./page/users/Login.jsx";
 import Test from "./page/test.jsx";
 import Home from "./page/users/Home.jsx";
-import ProtectedRoute from "./components/Protect/ProtectedRoute.jsx";
+
 import Orders from "./page/users/Orders.jsx";
 import History from "./page/users/History.jsx";
 import Register from "./page/users/Register.jsx";
@@ -18,13 +18,15 @@ import ManageOrderContent from "./components/contents/employeeContents/EmployeeO
 import ManageOrderEmployee from "./page/employees/ManagOrders.jsx";
 import HistoryEmployee from "./page/employees/HistoryEmployee.jsx";
 import ManageEmployee from "./page/employees/ManageEmployee.jsx";
-
-
+import {
+  ProtectedRouteEmployee,
+  ProtectedRouteUser,
+} from "./components/Protect/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/home",
-    element: <ProtectedRoute element={<Home />} />, // ใช้ ProtectedRoute สำหรับ Home
+    element: <ProtectedRouteUser element={<Home />} />, // ใช้ ProtectedRoute สำหรับ Home
   },
   {
     path: "/",
@@ -40,15 +42,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/orders",
-    element: <ProtectedRoute element={<Orders />} />,
+    element: <ProtectedRouteUser element={<Orders />} />,
   },
   {
     path: "/test",
-    element: <ProtectedRoute element={<Test />} />, // ใช้ ProtectedRoute สำหรับ Test
+    element: <ProtectedRouteUser element={<Test />} />, // ใช้ ProtectedRoute สำหรับ Test
   },
   {
     path: "/history",
-    element: <ProtectedRoute element={<History />} />, // ใช้ ProtectedRoute สำหรับ Test
+    element: <ProtectedRouteUser element={<History />} />, // ใช้ ProtectedRoute สำหรับ Test
   },
   {
     path: "/register",
@@ -56,22 +58,20 @@ const router = createBrowserRouter([
   },
   {
     path: "/employee/home",
-    element: <Employeehome />,
+    element: <ProtectedRouteEmployee element={<Employeehome />} />,
   },
   {
     path: "/employee/manageorder",
-    element: <ManageOrderEmployee />,
+    element: <ProtectedRouteEmployee element={<ManageOrderEmployee />} />,
   },
   {
     path: "/employee/emphistoryorder",
-    element: <HistoryEmployee />,
+    element: <ProtectedRouteEmployee element={<HistoryEmployee />} />,
   },
   {
     path: "/employee/empmanage",
-    element: <ManageEmployee />,
+    element: <ProtectedRouteEmployee element={<ManageEmployee />} />,
   },
-  
-
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
