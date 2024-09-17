@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import Swal from "sweetalert2";
 
 const BASE_URL = "http://localhost:8082";
 
@@ -30,17 +31,19 @@ export default function ManageOrderContent() {
         }
 
         const resultOrder = await responseOrder.json();
-        if (resultOrder.data && Array.isArray(resultOrder.data)  ) {
+        if (resultOrder.data && Array.isArray(resultOrder.data)) {
           const statuses = [
-            "Payment Pending", 
-            "Payment Transferred", 
-            "Payment Success", 
-            "Receiving", 
-            "Washing", 
-            "Sending"
+            "Payment Pending",
+            "Payment Transferred",
+            "Payment Success",
+            "Receiving",
+            "Washing",
+            "Sending",
           ];
-          const filteredOrders = resultOrder.data.filter(order => statuses.includes(order.status));
-      
+          const filteredOrders = resultOrder.data.filter((order) =>
+            statuses.includes(order.status)
+          );
+
           setOrderData(filteredOrders);
         } else {
           throw new Error("Data received is not an array");
@@ -90,20 +93,20 @@ export default function ManageOrderContent() {
     try {
       const token = localStorage.getItem("employeeToken");
       const empID = localStorage.getItem("employeeId");
-  
+
       if (!token) {
         console.error("Token not found");
         return;
       }
-  
+
       if (!empID) {
         console.error("Employee ID not found");
         return;
       }
-  
+
       let url = "";
       let body = {};
-  
+
       // เลือก URL และ Body ตามสถานะใหม่ที่กำหนด
       switch (newStatus) {
         case "Sending":
@@ -119,11 +122,11 @@ export default function ManageOrderContent() {
           body = { id: orderId, emp: empID };
           break;
         default:
-            url = "http://localhost:8082/orders/Status";
-            body = { id: orderId, status: newStatus };
-            break;
+          url = "http://localhost:8082/orders/Status";
+          body = { id: orderId, status: newStatus };
+          break;
       }
-  
+
       // เรียก API แรกตามสถานะที่เลือก
       const response = await fetch(url, {
         method: "PUT",
@@ -133,30 +136,45 @@ export default function ManageOrderContent() {
         },
         body: JSON.stringify(body),
       });
-  
+
       if (response.ok) {
         console.log("First API call succeeded");
-  
+
         // เมื่อ API แรกสำเร็จ ให้เรียก API เปลี่ยนสถานะต่อไป
         const statusUrl = `${BASE_URL}/orders/Status`;
         const statusBody = { id: orderId, status: newStatus };
-  
-        const statusResponse = await fetch(statusUrl, {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(statusBody),
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You will Change Status the order.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          cancelButtonText: "Cancel",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            const statusResponse = await fetch(statusUrl, {
+              method: "PUT",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(statusBody),
+            });
+            if (statusResponse.ok) {
+              
+              const result = statusResponse.json();
+              console.log("Status updated:", result);
+              window.location.reload();
+            } else {
+              Swal.fire({
+                title: "Error updating?",
+                text: "Error updating status:"+ statusResponse.status,
+                icon: "warning",
+                confirmButtonText: "OK",
+              })
+            }
+          }
         });
-  
-        if (statusResponse.ok) {
-          const result = await statusResponse.json();
-          console.log("Status updated:", result);
-          
-        } else {
-          console.error("Error updating status:", statusResponse.status);
-        }
       } else {
         console.error("Error in first API call:", response.status);
       }
@@ -164,7 +182,6 @@ export default function ManageOrderContent() {
       console.error("Error:", error);
     }
   };
-  
 
   return (
     <div className="px-6 py-8 mt-14 lg:ml-64 h-auto">
@@ -252,8 +269,7 @@ export default function ManageOrderContent() {
                         {row.empbysender || "-"}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-700">
-                        {
-                          row.status === "Payment Pending"
+                        {row.status === "Payment Pending"
                           ? "💳 Payment Pending"
                           : row.status === "Payment Transferred"
                           ? "💸 Payment Transferred"
