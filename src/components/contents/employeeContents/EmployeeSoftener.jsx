@@ -8,11 +8,14 @@ const BASE_URL = "http://localhost:8082";
 export default function SoftenerContent() {
   const [softenerData, setSoftenerData] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalIsOpenUpdate, setModalIsOpenUpdate] = useState(false);
 
   const [softenerName, setSoftenerName] = useState("");
   const [softenerPrice, setSoftenerPrice] = useState();
 
-  const [softenerDeleteId, setSoftenerDeleteId] = useState();
+  const [nameUpdate, setNameUpdate] = useState();
+  const [priceUpdate, setPriceUpdate] = useState();
+  const [idUpdate, setIdUpdate] = useState();
 
   useEffect(() => {
     const fetchSoftenerData = async () => {
@@ -59,7 +62,7 @@ export default function SoftenerContent() {
         console.error("No token found");
         return;
       }
-      console.log(token);
+      //   console.log(token);
       const responseCreate = await fetch(`${BASE_URL}/emp/fab/create`, {
         method: "POST",
         headers: {
@@ -149,8 +152,60 @@ export default function SoftenerContent() {
     }
   };
 
+  const updateSoftener = async () => {
+    try {
+      const token = localStorage.getItem("employeeToken");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+      console.log(nameUpdate + "." + priceUpdate);
+      const responseUpdate = await fetch(`${BASE_URL}/emp/fab/update`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+
+        body: JSON.stringify({ id:idUpdate , name: nameUpdate, price: priceUpdate }),
+      });
+
+      if (responseUpdate.ok) {
+        Swal.fire({
+          title: "Create Success!",
+          text: "Create Softener Success!",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // window.location.reload();s
+          }
+        });
+      } else {
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to Create.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to Create.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+  };
+
   const closeModal = () => {
     setModalIsOpen(false);
+  };
+  const closeModalUpdate = () => {
+    setModalIsOpenUpdate(false);
+
   };
 
   const handleSoftenerNameChange = (event) => {
@@ -160,6 +215,15 @@ export default function SoftenerContent() {
   const handleSoftenerPriceChange = (event) => {
     setSoftenerPrice(event.target.value);
   };
+
+  const handleNameUpdateChange = (event) => {
+    setNameUpdate(event.target.value);
+  };
+
+  const handlePriceUpdateChange = (event) => {
+    setPriceUpdate(event.target.value);
+  };
+  console.log(idUpdate)
 
   return (
     <div className="px-6 py-8 mt-14 lg:ml-64 h-auto">
@@ -212,7 +276,16 @@ export default function SoftenerContent() {
                         {row.price}
                       </td>
                       <td className="px-6 py-4 text-center text-sm text-gray-700">
-                        <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                        <button
+                          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                          onClick={() => {
+                            setModalIsOpenUpdate(true);
+                            setNameUpdate(row.name);
+                            setPriceUpdate(row.price);
+                            setIdUpdate(row.id);
+                          }}
+                          
+                        >
                           แก้ไข
                         </button>
                       </td>
@@ -232,7 +305,7 @@ export default function SoftenerContent() {
           </div>
         </div>
       </div>
-      {/* Modal */}
+      {/* Modal Create */}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -280,6 +353,66 @@ export default function SoftenerContent() {
               </button>
               <button
                 onClick={closeModal}
+                className="mt-4 px-4 py-2 ml-2 bg-red-500 hover:bg-red-600 text-white rounded-lg"
+              >
+                ปิด
+              </button>
+            </div>
+          </form>
+        </div>
+      </Modal>
+
+      {/* Modal Create */}
+      <Modal
+        isOpen={modalIsOpenUpdate}
+        onRequestClose={closeModalUpdate}
+        contentLabel="Slip Image Modal"
+        className="fixed inset-0 flex items-center justify-center z-50"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+        style={{
+          content: {
+            width: "600px", // ปรับขนาดกว้าง
+            height: "300px", // ปรับขนาดสูง
+            margin: "auto", // จัด modal ให้อยู่ตรงกลาง
+            borderRadius: "10px", // ขอบโค้งมน
+          },
+        }}
+      >
+        <div className="bg-white p-4 rounded-lg shadow-lg">
+          <h2 className="text-lg font-semibold mb-4 text-center">แก้ไข</h2>
+          <form className="" onSubmit={updateSoftener} >
+            <div className="flex items-center">
+              ชื่อน้ำยา
+              <input
+                type="text"
+                className="ml-2 border  sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-auto p-2.5 placeholder-gray-400  focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Softener Name.."
+                value={nameUpdate}
+                onChange={handleNameUpdateChange}
+                required
+              />
+            </div>
+            <div className="flex items-center mt-2">
+              ราคา
+              <input
+                type="text"
+                className="ml-2 border  sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-auto p-2.5  placeholder-gray-400  focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Price.."
+                value={priceUpdate}
+                onChange={handlePriceUpdateChange}
+                required
+              />
+            </div>
+            <div className="flex  ">
+              <button
+                type="submit"
+                className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-lg"
+                
+              >
+                ยืนยัน
+              </button>
+              <button
+                onClick={closeModalUpdate}
                 className="mt-4 px-4 py-2 ml-2 bg-red-500 hover:bg-red-600 text-white rounded-lg"
               >
                 ปิด
