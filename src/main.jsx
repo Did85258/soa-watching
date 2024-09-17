@@ -17,6 +17,7 @@ import Employeehome from "./page/employees/HomeEmployee.jsx";
 import ManageOrderContent from "./components/contents/employeeContents/EmployeeOrderContents.jsx";
 import ManageOrderEmployee from "./page/employees/ManagOrders.jsx";
 import HistoryEmployee from "./page/employees/HistoryEmployee.jsx";
+import ManageEmployee from "./page/employees/ManageEmployee.jsx";
 
 
 
@@ -65,6 +66,11 @@ const router = createBrowserRouter([
     path: "/employee/emphistoryorder",
     element: <HistoryEmployee />,
   },
+  {
+    path: "/employee/empmanage",
+    element: <ManageEmployee />,
+  },
+  
 
 ]);
 
