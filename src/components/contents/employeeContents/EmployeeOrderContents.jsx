@@ -281,7 +281,8 @@ export default function ManageOrderContent() {
                           ? "🏠 Washing"
                           : row.status === "Sending"
                           ? "🛵 Sending"
-                          : ""}
+                          : row.status === "Order Cancel" 
+                          ? '❌ Order Cancel' :''}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-700">
                         {/* ปุ่มเปลี่ยนสถานะแต่ละแบบ */}
@@ -369,6 +370,18 @@ export default function ManageOrderContent() {
                             }
                           >
                             Success
+                          </button>
+                          <button
+                            className={`px-3 py-1 rounded-lg ${
+                              row.status === "Order Cancel"
+                                ? "bg-red-500"
+                                : "bg-gray-200"
+                            }`}
+                            onClick={() =>
+                              handleChangeStatus(row.id, "Order Cancel")
+                            }
+                          >
+                            Order Cancel
                           </button>
                         </div>
                       </td>

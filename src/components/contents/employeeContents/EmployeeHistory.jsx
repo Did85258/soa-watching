@@ -32,7 +32,8 @@ export default function HistoryOrderContent() {
         const resultOrder = await responseOrder.json();
         if (resultOrder.data && Array.isArray(resultOrder.data)  ) {
           const statuses = [
-            "Success"
+            "Success",
+            "Order Cancel"
           ];
           const filteredOrders = resultOrder.data.filter(order => statuses.includes(order.status));
       
@@ -90,7 +91,7 @@ export default function HistoryOrderContent() {
           <div className="p-6 grid h-auto bg-white shadow-lg rounded-lg border border-gray-200">
             <div className="text-center py-4">
               <span className="text-2xl font-semibold text-gray-800">
-                Manage Order
+                History Order
               </span>
             </div>
             <div className="relative overflow-x-auto md:rounded-lg">
@@ -168,7 +169,9 @@ export default function HistoryOrderContent() {
                       <td className="px-6 py-4 text-sm text-gray-700">
                         {
                           row.status === "Success"
-                          ? "✅ Success"
+                          ? "✅ Success":
+                          row.status === "Order Cancel"
+                          ? "❌ Order Cancel"
                           : ''}
                       </td>
                       
