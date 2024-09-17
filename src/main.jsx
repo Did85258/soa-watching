@@ -22,6 +22,7 @@ import {
   ProtectedRouteEmployee,
   ProtectedRouteUser,
 } from "./components/Protect/ProtectedRoute.jsx";
+import SoftenerEmployee from "./page/employees/SoftenerEmployee.jsx";
 
 const router = createBrowserRouter([
   {
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
   {
     path: "/employee/empmanage",
     element: <ProtectedRouteEmployee element={<ManageEmployee />} />,
+  },
+  {
+    path: "/employee/softener",
+    element: <ProtectedRouteEmployee element={<SoftenerEmployee />} />,
   },
 ]);
 
