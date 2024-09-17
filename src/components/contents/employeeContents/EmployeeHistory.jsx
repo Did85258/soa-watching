@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 
 const BASE_URL = "http://localhost:8082";
+Modal.setAppElement('#root');
+
 
 export default function HistoryOrderContent() {
   const [orderData, setOrderData] = useState([]);

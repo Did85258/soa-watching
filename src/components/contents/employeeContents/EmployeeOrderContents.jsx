@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Swal from "sweetalert2";
+Modal.setAppElement('#root');
 
 const BASE_URL = "http://localhost:8082";
-
 export default function ManageOrderContent() {
   const [orderData, setOrderData] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [slipImage, setSlipImage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  
 
   useEffect(() => {
     const fetchOrderData = async () => {
@@ -398,6 +399,7 @@ export default function ManageOrderContent() {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
+
         contentLabel="Slip Image Modal"
         className="fixed inset-0 flex items-center justify-center z-50"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50"
