@@ -109,7 +109,7 @@ export default function SoftenerContent() {
         console.error("No token found");
         return;
       }
-      console.log(id);
+      // console.log(id);
       await Swal.fire({
         title: "Are you sure?",
         text: "You will Change Status the order.",
@@ -160,7 +160,7 @@ export default function SoftenerContent() {
         console.error("No token found");
         return;
       }
-      console.log(nameUpdate + "." + priceUpdate);
+      // console.log(nameUpdate + "." + priceUpdate);
       const responseUpdate = await fetch(`${BASE_URL}/emp/fab/update`, {
         method: "PUT",
         headers: {
@@ -168,7 +168,11 @@ export default function SoftenerContent() {
           Authorization: `Bearer ${token}`,
         },
 
-        body: JSON.stringify({ id:idUpdate , name: nameUpdate, price: priceUpdate }),
+        body: JSON.stringify({
+          id: idUpdate,
+          name: nameUpdate,
+          price: priceUpdate,
+        }),
       });
 
       if (responseUpdate.ok) {
@@ -177,7 +181,11 @@ export default function SoftenerContent() {
           text: "Update Softener Success!",
           icon: "success",
           confirmButtonText: "OK",
-        })  
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
       } else {
         Swal.fire({
           title: "Error!",
@@ -202,7 +210,6 @@ export default function SoftenerContent() {
   };
   const closeModalUpdate = () => {
     setModalIsOpenUpdate(false);
-
   };
 
   const handleSoftenerNameChange = (event) => {
@@ -220,7 +227,7 @@ export default function SoftenerContent() {
   const handlePriceUpdateChange = (event) => {
     setPriceUpdate(event.target.value);
   };
-  console.log(idUpdate)
+  // console.log(idUpdate);
 
   return (
     <div className="px-6 py-8 mt-14 lg:ml-64 h-auto">
@@ -281,7 +288,6 @@ export default function SoftenerContent() {
                             setPriceUpdate(row.price);
                             setIdUpdate(row.id);
                           }}
-                          
                         >
                           แก้ไข
                         </button>
@@ -377,7 +383,7 @@ export default function SoftenerContent() {
       >
         <div className="bg-white p-4 rounded-lg shadow-lg">
           <h2 className="text-lg font-semibold mb-4 text-center">แก้ไข</h2>
-          <form className="" onSubmit={updateSoftener} >
+          <form className="" onSubmit={updateSoftener}>
             <div className="flex items-center">
               ชื่อน้ำยา
               <input
@@ -404,7 +410,6 @@ export default function SoftenerContent() {
               <button
                 type="submit"
                 className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-lg"
-                
               >
                 ยืนยัน
               </button>
