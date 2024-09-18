@@ -6,6 +6,7 @@ const linkHome = "http://localhost:5173/employee/home";
 const linkHome2 = "http://localhost:5173/employee/manageorder";
 const linkHome3 = "http://localhost:5173/employee/emphistoryorder";
 const linkHome4 = "http://localhost:5173/employee/empmanage";
+const linkHome5 = "http://localhost:5173/employee/softener";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -74,6 +75,12 @@ function Sidebar() {
             name="Manage Employee"
             urlMenu={linkHome4}
             path="M7 2a2 2 0 0 0-2 2v1a1 1 0 0 0 0 2v1a1 1 0 0 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H7Zm3 8a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-1 7a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3 1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1Z"
+            
+          />
+          <SideMenu
+            name="Softener"
+            urlMenu={linkHome5}
+            path="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z"
             
           />
         </ul>
